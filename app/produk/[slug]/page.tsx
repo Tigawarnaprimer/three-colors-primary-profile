@@ -1,7 +1,8 @@
+
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-
+import PdfViewer from "@/components/PdfViewer";
 type Product = {
   id: number;
   nama: string;
@@ -36,10 +37,7 @@ export default async function ProductDetail({
 }: ProductDetailPageProps) {
   const { slug } = await params;
 
-  // =====================================================
-  // AMBIL DATA PRODUK
-  // =====================================================
-
+  // Ambil data produk
   const { data: product, error: productError } = await supabase
     .from("produk")
     .select(
@@ -53,10 +51,7 @@ export default async function ProductDetail({
     notFound();
   }
 
-  // =====================================================
-  // AMBIL VARIAN PRODUK
-  // =====================================================
-
+  // Ambil varian produk yang aktif
   const { data: variants } = await supabase
     .from("varian_produk")
     .select(
@@ -72,66 +67,60 @@ export default async function ProductDetail({
   const activeVariants: Variant[] = variants ?? [];
 
   return (
-    <main className="pt-20 bg-white">
-      {/* =====================================================
-          HERO
-      ===================================================== */}
-      {/* HERO / BANNER */}
-<section className="relative h-[360px] overflow-hidden">
-  <div
-    className="absolute inset-0 bg-cover bg-center"
-    style={{
-      backgroundImage: 'url("/images/produk-banner.jpg")',
-    }}
-  />
+    <main className="bg-white pt-20">
+      {/* HERO BANNER */}
+      <section className="relative h-[320px] overflow-hidden sm:h-[360px]">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'url("/images/produk-banner.jpg")',
+          }}
+        />
 
-  <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute inset-0 bg-black/55" />
 
-  <div className="relative z-10 h-full">
-    <div className="max-w-6xl mx-auto h-full px-6 lg:px-8 flex items-center">
-      <div className="max-w-3xl">
-        <div className="flex items-center gap-3">
-          <span className="w-10 h-[2px] bg-yellow-400" />
+        <div className="relative z-10 mx-auto flex h-full max-w-6xl items-center px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-3">
+              <span className="h-[2px] w-10 bg-yellow-400" />
+              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-yellow-400">
+                Produk
+              </p>
+            </div>
 
-          <p className="text-sm font-semibold tracking-[0.22em] uppercase text-yellow-400">
-            Produk
-          </p>
+            <h1 className="mt-5 text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
+              {product.nama}
+            </h1>
+
+            <p className="mt-5 max-w-2xl text-base leading-7 text-white/85 md:text-lg">
+              Informasi produk, pilihan varian, dan katalog
+              produk untuk kebutuhan industri tekstil Anda.
+            </p>
+          </div>
         </div>
+      </section>
 
-        <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] text-white">
-          {product.nama}
-        </h1>
-
-        <p className="mt-5 max-w-2xl text-base md:text-lg leading-7 text-white/85">
-          Informasi produk dan varian yang tersedia.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-      {/* =====================================================
-          DETAIL PRODUK
-      ===================================================== */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Product Image */}
-            <div className="overflow-hidden rounded-2xl bg-gray-100 border border-gray-200">
+      {/* DETAIL PRODUK */}
+      <section className="py-14 md:py-20">
+        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12">
+            {/* GAMBAR PRODUK */}
+            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-gray-100">
               {product.gambar_url ? (
                 <img
                   src={product.gambar_url}
                   alt={product.nama}
-                  className="w-full h-[420px] object-cover"
+                  className="h-[300px] w-full object-cover sm:h-[420px]"
                 />
               ) : (
-                <div className="w-full h-[420px] flex flex-col items-center justify-center bg-blue-50">
+                <div className="flex h-[300px] flex-col items-center justify-center bg-blue-50 sm:h-[420px]">
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="1.5"
-                    className="w-16 h-16 text-blue-200"
+                    className="h-16 w-16 text-blue-200"
+                    aria-hidden="true"
                   >
                     <rect
                       x="3"
@@ -140,11 +129,7 @@ export default async function ProductDetail({
                       height="16"
                       rx="2"
                     />
-                    <circle
-                      cx="8.5"
-                      cy="9"
-                      r="1.5"
-                    />
+                    <circle cx="8.5" cy="9" r="1.5" />
                     <path d="M3 16l5-5 4 4 3-3 6 6" />
                   </svg>
 
@@ -155,367 +140,364 @@ export default async function ProductDetail({
               )}
             </div>
 
-            {/* Product Information */}
+            {/* INFORMASI PRODUK */}
             <div>
-              <p className="text-sm font-semibold tracking-[0.2em] uppercase text-blue-700">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
                 Produk {product.nomor || ""}
               </p>
 
-              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-blue-950">
+              <h2 className="mt-3 text-3xl font-bold text-blue-950 md:text-4xl">
                 {product.nama}
               </h2>
 
-              <div className="mt-5 w-12 h-1 bg-yellow-400 rounded-full" />
+              <div className="mt-5 h-1 w-12 rounded-full bg-yellow-400" />
 
-              <p className="mt-6 text-gray-600 leading-8">
+              <p className="mt-6 whitespace-pre-line leading-8 text-gray-600">
                 {product.deskripsi ||
                   "Informasi produk belum tersedia."}
               </p>
 
-              <p className="mt-5 text-gray-600 leading-8">
-                PT Tiga Warna Primer menyediakan solusi pewarna dan
-                bahan kimia untuk mendukung kebutuhan proses industri
-                tekstil dengan memperhatikan kualitas dan konsistensi.
+              <p className="mt-5 leading-8 text-gray-600">
+                PT Tiga Warna Primer menyediakan solusi pewarna
+                dan bahan kimia untuk mendukung kebutuhan proses
+                industri tekstil dengan memperhatikan kualitas
+                dan konsistensi.
               </p>
 
-              {/* Action */}
+              {/* TOMBOL AKSI */}
               <div className="mt-8 flex flex-wrap gap-3">
-                {product.pdf_url && (
-                  <>
-                    <a
-                      href={product.pdf_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="
-                        inline-flex
-                        items-center
-                        justify-center
-                        gap-2
-                        bg-blue-700
-                        hover:bg-blue-800
-                        text-white
-                        px-6
-                        py-3.5
-                        rounded-lg
-                        text-sm
-                        font-semibold
-                        transition
-                        duration-300
-                      "
-                    >
-                      Lihat Detail Produk
-                      <span>→</span>
-                    </a>
+                
+{product.pdf_url && (
+  <a
+    href="#katalog-produk"
+    className="group inline-flex items-center gap-3 rounded-xl bg-gradient-to-r from-blue-950 via-blue-800 to-blue-700 px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-blue-950/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-900/30 focus:outline-none focus:ring-4 focus:ring-blue-200"
+  >
+    <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-yellow-400 text-blue-950 transition-transform duration-300 group-hover:scale-110">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="23"
+        height="23"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <path d="M14 2v6h6" />
+        <path d="M8 13h8M8 17h5" />
+      </svg>
+    </span>
 
-                    <a
-                      href={product.pdf_url}
-                      download
-                      className="
-                        inline-flex
-                        items-center
-                        justify-center
-                        gap-2
-                        border
-                        border-gray-300
-                        hover:border-blue-700
-                        text-blue-950
-                        hover:text-blue-700
-                        px-6
-                        py-3.5
-                        rounded-lg
-                        text-sm
-                        font-semibold
-                        transition
-                        duration-300
-                      "
-                    >
-                      Download PDF
-                    </a>
-                  </>
-                )}
+    <span className="flex flex-col items-start gap-1">
+      <span className="text-base font-bold tracking-wide">
+        Lihat Katalog Produk
+      </span>
+      <span className="text-xs font-normal text-blue-100">
+        Baca spesifikasi dan informasi produk
+      </span>
+    </span>
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="19"
+      height="19"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="ml-2 transition-transform duration-300 group-hover:translate-x-1"
+      aria-hidden="true"
+    >
+      <path d="M5 12h14" />
+      <path d="m12 5 7 7-7 7" />
+    </svg>
+  </a>
+)}
+
 
                 <Link
                   href="/produk"
-                  className="
-                    inline-flex
-                    items-center
-                    justify-center
-                    gap-2
-                    border
-                    border-gray-300
-                    hover:border-blue-700
-                    text-blue-950
-                    hover:text-blue-700
-                    px-6
-                    py-3.5
-                    rounded-lg
-                    text-sm
-                    font-semibold
-                    transition
-                    duration-300
-                  "
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 px-6 py-3.5 text-sm font-semibold text-blue-950 transition duration-300 hover:border-blue-700 hover:text-blue-700"
                 >
-                  ← Kembali
+                  ← Kembali ke Produk
                 </Link>
               </div>
+
+              {product.pdf_url && (
+                <p className="mt-4 flex items-start gap-2 text-xs leading-5 text-gray-500">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="mt-0.5 shrink-0"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 16v-4M12 8h.01" />
+                  </svg>
+                  Katalog dapat dilihat langsung melalui browser
+                  tanpa perlu mengunduhnya terlebih dahulu.
+                </p>
+              )}
             </div>
           </div>
-{/* =================================================
-    VARIAN PRODUK
-================================================= */}
-{activeVariants.length > 0 && (
-  <div className="mt-16">
-    {/* SECTION HEADER */}
-    <div className="mb-8">
-      <p className="text-sm font-semibold tracking-[0.2em] uppercase text-blue-700">
-        Pilihan Varian
-      </p>
 
-      <h2 className="mt-3 text-3xl md:text-4xl font-bold text-blue-950">
-        Varian Produk
-      </h2>
-
-      <p className="mt-4 text-gray-600 leading-7 max-w-2xl">
-        Pilih varian produk yang sesuai dengan kebutuhan
-        proses produksi Anda.
-      </p>
-    </div>
-
-    {/* VARIANT GRID */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      {activeVariants.map((variant) => (
-        <div
-          key={variant.id}
-          className="
-            group
-            relative
-            overflow-hidden
-            rounded-2xl
-            border
-            border-gray-100
-            bg-white
-
-            shadow-[0_6px_0_0_rgba(15,23,42,0.05),0_10px_22px_rgba(15,23,42,0.08)]
-
-            transition-all
-            duration-300
-
-            hover:-translate-y-2
-            hover:border-blue-100
-
-            hover:shadow-[0_9px_0_0_rgba(15,23,42,0.07),0_18px_30px_rgba(15,23,42,0.13)]
-          "
-        >
-          {/* =========================================
-              VARIANT IMAGE
-          ========================================= */}
-          <div className="relative h-48 bg-gray-100 overflow-hidden">
-            {variant.gambar_url ? (
-              <img
-                src={variant.gambar_url}
-                alt={`${variant.kode} - ${variant.warna}`}
-                className="
-                  w-full
-                  h-full
-                  object-cover
-                  transition-transform
-                  duration-500
-                  group-hover:scale-105
-                "
-              />
-            ) : (
-              <div
-                className="
-                  w-full
-                  h-full
-                  flex
-                  items-center
-                  justify-center
-                "
-                style={{
-                  backgroundColor:
-                    variant.warna_hex || "#f3f4f6",
-                }}
-              >
-                <span className="text-sm font-semibold text-gray-600">
-                  {variant.warna || "Varian"}
-                </span>
-              </div>
-            )}
-
-            {/* =========================================
-                BEST SELLER BADGE
-            ========================================= */}
-            {variant.best_seller && (
-              <div className="absolute top-4 left-4 z-10">
-                <span
-                  className="
-                    inline-flex
-                    items-center
-                    rounded-full
-                    bg-yellow-400
-                    px-3
-                    py-1.5
-                    text-xs
-                    font-bold
-                    text-blue-950
-                    shadow-md
-                  "
-                >
-                  Best Seller
-                </span>
-              </div>
-            )}
-
-            {/* IMAGE OVERLAY */}
-            <div
-              className="
-                absolute
-                inset-0
-                bg-gradient-to-t
-                from-black/10
-                via-transparent
-                to-transparent
-                pointer-events-none
-              "
-            />
-          </div>
-
-          {/* =========================================
-              VARIANT CONTENT
-          ========================================= */}
-          <div className="p-5">
-            {/* KODE */}
-            <p className="text-xs font-bold tracking-[0.15em] uppercase text-blue-700">
-              {variant.kode}
-            </p>
-
-            {/* NAMA WARNA */}
-            <h3 className="mt-2 text-lg font-bold text-blue-950 line-clamp-1">
-              {variant.warna}
-            </h3>
-
-            {/* COLOR */}
-            {variant.warna_hex && (
-              <div className="mt-4 flex items-center gap-3">
-                <span
-                  className="
-                    w-6
-                    h-6
-                    rounded-full
-                    border
-                    border-gray-200
-                    shadow-inner
-                    shrink-0
-                  "
-                  style={{
-                    backgroundColor: variant.warna_hex,
-                  }}
-                />
-
-                <span className="text-xs text-gray-500 uppercase">
-                  {variant.warna_hex}
-                </span>
-              </div>
-            )}
-          </div>
-
-          {/* =========================================
-              BOTTOM ELEVATION SHADOW
-          ========================================= */}
-          <div
-            className="
-              absolute
-              -bottom-1
-              left-6
-              right-6
-              h-2
-              rounded-full
-              bg-blue-950/10
-              blur-sm
-            "
-          />
-        </div>
-      ))}
-    </div>
-  </div>
-)}
-          {/* =================================================
-              PDF PREVIEW
-          ================================================= */}
-          {product.pdf_url && (
-            <div className="mt-20">
+          {/* VARIAN PRODUK */}
+          {activeVariants.length > 0 && (
+            <section className="mt-16 md:mt-20">
               <div className="mb-8">
-                <p className="text-sm font-semibold tracking-[0.2em] uppercase text-blue-700">
-                  Informasi Produk
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
+                  Pilihan Varian
                 </p>
 
-                <h2 className="mt-3 text-3xl md:text-4xl font-bold text-blue-950">
-                  Detail Produk
+                <h2 className="mt-3 text-3xl font-bold text-blue-950 md:text-4xl">
+                  Varian Produk
                 </h2>
 
-                <p className="mt-4 text-gray-600 leading-7">
-                  Lihat dokumen detail produk untuk informasi lebih
-                  lengkap mengenai {product.nama}.
+                <p className="mt-4 max-w-2xl leading-7 text-gray-600">
+                  Pilih varian produk yang sesuai dengan kebutuhan
+                  proses produksi Anda.
                 </p>
               </div>
 
-              {/* PDF Viewer */}
-              <div className="w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-sm">
-                <iframe
-                  src={product.pdf_url}
-                  title={`Detail Produk ${product.nama}`}
-                  className="w-full h-[700px]"
-                />
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {activeVariants.map((variant) => (
+                  <article
+                    key={variant.id}
+                    className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_6px_20px_rgba(15,23,42,0.07)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-100 hover:shadow-[0_12px_28px_rgba(15,23,42,0.12)]"
+                  >
+                    {/* GAMBAR VARIAN */}
+                    <div className="relative h-48 overflow-hidden bg-gray-100">
+                      {variant.gambar_url ? (
+                        <img
+                          src={variant.gambar_url}
+                          alt={`${variant.kode} - ${variant.warna}`}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div
+                          className="flex h-full w-full items-center justify-center"
+                          style={{
+                            backgroundColor:
+                              variant.warna_hex || "#f3f4f6",
+                          }}
+                        >
+                          <span className="px-4 text-center text-sm font-semibold text-gray-700">
+                            {variant.warna || "Varian"}
+                          </span>
+                        </div>
+                      )}
+
+                      {variant.best_seller && (
+                        <div className="absolute left-4 top-4">
+                          <span className="inline-flex rounded-full bg-yellow-400 px-3 py-1.5 text-xs font-bold text-blue-950 shadow-sm">
+                            Best Seller
+                          </span>
+                        </div>
+                      )}
+
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
+                    </div>
+
+                    {/* INFORMASI VARIAN */}
+                    <div className="p-5">
+                      <p className="text-xs font-bold uppercase tracking-[0.15em] text-blue-700">
+                        {variant.kode}
+                      </p>
+
+                      <h3 className="mt-2 line-clamp-2 text-lg font-bold text-blue-950">
+                        {variant.warna}
+                      </h3>
+
+                      {variant.warna_hex && (
+                        <div className="mt-4 flex items-center gap-3">
+                          <span
+                            className="h-6 w-6 shrink-0 rounded-full border border-gray-200 shadow-inner"
+                            style={{
+                              backgroundColor: variant.warna_hex,
+                            }}
+                          />
+
+                          <span className="text-xs uppercase text-gray-500">
+                            {variant.warna_hex}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </article>
+                ))}
               </div>
-            </div>
+            </section>
           )}
 
-          {/* =================================================
-              BOTTOM CTA
-          ================================================= */}
-          <div className="mt-16 rounded-2xl bg-blue-950 p-8 md:p-10">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          {/* KATALOG PDF */}
+          {product.pdf_url && (
+            <section
+              id="katalog-produk"
+              className="mt-16 scroll-mt-24 md:mt-20"
+            >
+              {/* JUDUL KATALOG */}
+              <div className="mb-7 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
+                    Pusat Informasi Produk
+                  </p>
+
+                  <h2 className="mt-3 text-3xl font-bold text-blue-950 md:text-4xl">
+                    Katalog Produk
+                  </h2>
+
+                  <p className="mt-4 max-w-2xl leading-7 text-gray-600">
+                    Pelajari informasi lebih lengkap mengenai{" "}
+                    <span className="font-semibold text-blue-950">
+                      {product.nama}
+                    </span>{" "}
+                    melalui katalog berikut.
+                  </p>
+                </div>
+
+                <span className="inline-flex w-fit shrink-0 items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-xs font-semibold text-blue-800">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                  </svg>
+                  Pratinjau Katalog
+                </span>
+              </div>
+
+              {/* PDF VIEWER */}
+              <div className="overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 shadow-sm">
+                <div className="flex items-center justify-between gap-3 border-b border-gray-200 bg-white px-4 py-4 sm:px-6">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-700">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="21"
+                        height="21"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <path d="M14 2v6h6" />
+                        <path d="M8 13h8M8 17h8" />
+                      </svg>
+                    </div>
+
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-blue-950">
+                        Katalog {product.nama}
+                      </p>
+                      <p className="mt-1 text-xs text-gray-500">
+                        Dokumen PDF
+                      </p>
+                    </div>
+                  </div>
+
+                  <span className="hidden shrink-0 text-xs text-gray-500 sm:inline">
+                    Tampilan dokumen
+                  </span>
+                </div>
+
+                <div className="bg-gray-100 p-2 sm:p-4">
+                  {product.pdf_url ? (
+  <PdfViewer
+    url={product.pdf_url}
+    title={`Katalog ${product.nama}`}
+  />
+) : (
+  <div className="rounded-xl border border-gray-200 p-8 text-center">
+    <p className="text-gray-500">
+      Katalog PDF belum tersedia.
+    </p>
+  </div>
+)}
+                </div>
+
+                <div className="flex items-start gap-3 border-t border-gray-200 bg-white px-4 py-4 sm:px-6">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="mt-0.5 shrink-0 text-blue-700"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 16v-4M12 8h.01" />
+                  </svg>
+
+                  <p className="text-xs leading-6 text-gray-500 sm:text-sm">
+                    Jika katalog tidak muncul, gunakan tombol{" "}
+                    <span className="font-semibold text-blue-800">
+                      Lihat Katalog Produk
+                    </span>{" "}
+                    di atas untuk membukanya pada tab browser baru.
+                  </p>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* CALL TO ACTION */}
+          <section className="mt-16 rounded-2xl bg-blue-950 p-7 md:mt-20 md:p-10">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div>
-                <p className="text-sm font-semibold tracking-[0.2em] uppercase text-yellow-400">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-yellow-400">
                   Butuh Informasi Lebih Lanjut?
                 </p>
 
-                <h3 className="mt-3 text-2xl md:text-3xl font-bold text-white">
+                <h2 className="mt-3 text-2xl font-bold text-white md:text-3xl">
                   Konsultasikan kebutuhan produk Anda
-                </h3>
+                </h2>
 
-                <p className="mt-3 text-blue-100 leading-7 max-w-2xl">
+                <p className="mt-3 max-w-2xl leading-7 text-blue-100">
                   Hubungi PT Tiga Warna Primer untuk mendapatkan
-                  informasi lebih lanjut mengenai produk dan kebutuhan
-                  proses produksi Anda.
+                  informasi lebih lanjut mengenai produk dan
+                  kebutuhan proses produksi Anda.
                 </p>
               </div>
 
               <Link
                 href="/kontak"
-                className="
-                  shrink-0
-                  inline-flex
-                  items-center
-                  justify-center
-                  gap-2
-                  bg-yellow-400
-                  hover:bg-yellow-300
-                  text-blue-950
-                  px-6
-                  py-3.5
-                  rounded-lg
-                  font-semibold
-                  transition
-                  duration-300
-                "
+                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-yellow-400 px-6 py-3.5 font-semibold text-blue-950 transition duration-300 hover:bg-yellow-300"
               >
                 Hubungi Kami
-                <span>→</span>
+                <span aria-hidden="true">→</span>
               </Link>
             </div>
-          </div>
+          </section>
         </div>
       </section>
     </main>
