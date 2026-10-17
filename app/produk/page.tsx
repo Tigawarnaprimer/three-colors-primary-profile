@@ -18,7 +18,7 @@ export default function Produk() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-
+  const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
     const loadProducts = async () => {
       setLoading(true);
@@ -45,7 +45,15 @@ export default function Produk() {
 
     loadProducts();
   }, []);
+const filteredProducts = products.filter((product) => {
+  const keyword = searchTerm.trim().toLowerCase();
 
+  return (
+    product.nama.toLowerCase().includes(keyword) ||
+    (product.nomor ?? "").toLowerCase().includes(keyword) ||
+    (product.deskripsi ?? "").toLowerCase().includes(keyword)
+  );
+});
   return (
     <main className="pt-20 bg-white">
       {/* =====================================================
@@ -156,53 +164,113 @@ export default function Produk() {
           {/* =================================================
               EMPTY
           ================================================= */}
-          {!loading && !error && products.length === 0 && (
-            <div className="mt-12 rounded-2xl border border-gray-200 bg-gray-50 px-6 py-16 text-center">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  className="h-8 w-8 text-blue-300"
-                >
-                  <rect
-                    x="3"
-                    y="4"
-                    width="18"
-                    height="16"
-                    rx="2"
-                  />
+          
+{!loading && !error && filteredProducts.length === 0 && (
+  <div className="rounded-2xl border border-slate-200 bg-slate-50 px-6 py-14 text-center">
+    <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-white text-slate-400 shadow-sm">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-7 w-7"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <circle cx="11" cy="11" r="7" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="m16 16 4 4"
+        />
+      </svg>
+    </div>
 
-                  <circle
-                    cx="8.5"
-                    cy="9"
-                    r="1.5"
-                  />
+    <h3 className="text-lg font-semibold text-slate-800">
+      {searchTerm.trim()
+        ? "Produk Tidak Ditemukan"
+        : "Belum Ada Produk"}
+    </h3>
 
-                  <path d="M3 16l5-5 4 4 3-3 6 6" />
-                </svg>
-              </div>
+    <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
+      {searchTerm.trim()
+        ? `Maaf, tidak ada produk yang cocok dengan kata kunci "${searchTerm}". Coba gunakan nama, nomor, atau kata kunci lain.`
+        : "Saat ini belum ada produk yang tersedia. Silakan kunjungi kembali halaman ini nanti."}
+    </p>
 
-              <h3 className="mt-5 text-lg font-bold text-blue-950">
-                Belum Ada Produk
-              </h3>
+    {searchTerm.trim() && (
+      <button
+        type="button"
+        onClick={() => setSearchTerm("")}
+        className="mt-5 rounded-lg bg-slate-800 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-slate-700"
+      >
+        Tampilkan Semua Produk
+      </button>
+    )}
+  </div>
+)}
 
-              <p className="mt-2 text-sm text-gray-500">
-                Produk yang aktif akan ditampilkan pada halaman ini.
-              </p>
-            </div>
-          )}
 
+            <div className="mb-8">
+  <div className="relative mx-auto max-w-xl">
+    <svg
+      className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.8}
+    >
+      <circle cx="11" cy="11" r="7" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m16 16 4 4"
+      />
+    </svg>
+
+    <input
+      type="text"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      placeholder="Cari nama, nomor, atau deskripsi produk..."
+      aria-label="Cari produk berdasarkan nama, nomor, atau deskripsi"
+      className="w-full rounded-xl border border-slate-200 bg-white py-3.5 pl-12 pr-12 text-sm text-slate-700 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-slate-100"
+    />
+
+    {searchTerm && (
+      <button
+        type="button"
+        onClick={() => setSearchTerm("")}
+        aria-label="Hapus pencarian"
+        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-700"
+      >
+        ✕
+      </button>
+    )}
+  </div>
+
+  {searchTerm.trim() && (
+    <p className="mt-3 text-center text-sm text-slate-500">
+      Ditemukan{" "}
+      <span className="font-semibold text-slate-700">
+        {filteredProducts.length}
+      </span>{" "}
+      produk untuk "{searchTerm}"
+    </p>
+  )}
+</div>
           {/* =================================================
               PRODUCT CARDS
           ================================================= */}
-          {!loading && !error && products.length > 0 && (
+          {!loading && !error && filteredProducts.length > 0 && (
             <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-              {products.map((product, index) => {
-                const number =
-                  product.nomor ||
-                  String(index + 1).padStart(2, "0");
+              {filteredProducts.map((product) => {
+                const originalIndex = products.findIndex(
+              (item) => item.id === product.id
+              );
+
+const number =
+  product.nomor || String(originalIndex + 1).padStart(2, "0");
 
                 return (
                   <Link
