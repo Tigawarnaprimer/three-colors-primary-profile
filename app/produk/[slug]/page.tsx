@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import PdfViewer from "@/components/PdfViewer";
+import VariantSearch from "@/components/VariantSearch";
 type Product = {
   id: number;
   nama: string;
@@ -253,93 +254,12 @@ export default async function ProductDetail({
             </div>
           </div>
 
-          {/* VARIAN PRODUK */}
-          {activeVariants.length > 0 && (
-            <section className="mt-16 md:mt-20">
-              <div className="mb-8">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
-                  Pilihan Varian
-                </p>
+          
+          
+{/* VARIAN PRODUK */}
+<VariantSearch variants={activeVariants} />
 
-                <h2 className="mt-3 text-3xl font-bold text-blue-950 md:text-4xl">
-                  Varian Produk
-                </h2>
-
-                <p className="mt-4 max-w-2xl leading-7 text-gray-600">
-                  Pilih varian produk yang sesuai dengan kebutuhan
-                  proses produksi Anda.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                {activeVariants.map((variant) => (
-                  <article
-                    key={variant.id}
-                    className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_6px_20px_rgba(15,23,42,0.07)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-100 hover:shadow-[0_12px_28px_rgba(15,23,42,0.12)]"
-                  >
-                    {/* GAMBAR VARIAN */}
-                    <div className="relative h-48 overflow-hidden bg-gray-100">
-                      {variant.gambar_url ? (
-                        <img
-                          src={variant.gambar_url}
-                          alt={`${variant.kode} - ${variant.warna}`}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                      ) : (
-                        <div
-                          className="flex h-full w-full items-center justify-center"
-                          style={{
-                            backgroundColor:
-                              variant.warna_hex || "#f3f4f6",
-                          }}
-                        >
-                          <span className="px-4 text-center text-sm font-semibold text-gray-700">
-                            {variant.warna || "Varian"}
-                          </span>
-                        </div>
-                      )}
-
-                      {variant.best_seller && (
-                        <div className="absolute left-4 top-4">
-                          <span className="inline-flex rounded-full bg-yellow-400 px-3 py-1.5 text-xs font-bold text-blue-950 shadow-sm">
-                            Best Seller
-                          </span>
-                        </div>
-                      )}
-
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
-                    </div>
-
-                    {/* INFORMASI VARIAN */}
-                    <div className="p-5">
-                      <p className="text-xs font-bold uppercase tracking-[0.15em] text-blue-700">
-                        {variant.kode}
-                      </p>
-
-                      <h3 className="mt-2 line-clamp-2 text-lg font-bold text-blue-950">
-                        {variant.warna}
-                      </h3>
-
-                      {variant.warna_hex && (
-                        <div className="mt-4 flex items-center gap-3">
-                          <span
-                            className="h-6 w-6 shrink-0 rounded-full border border-gray-200 shadow-inner"
-                            style={{
-                              backgroundColor: variant.warna_hex,
-                            }}
-                          />
-
-                          <span className="text-xs uppercase text-gray-500">
-                            {variant.warna_hex}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
-          )}
+{/* KATALOG PDF */}
 
           {/* KATALOG PDF */}
           {product.pdf_url && (
