@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-
+import VisitorStatsPublic from "@/components/VisitorStatsPublic";
 const slides = [
   {
     image: "/images/hero-1.jpg",
@@ -391,7 +391,7 @@ useEffect(() => {
       </section>
 
       {/* ================= TENTANG SINGKAT ================= */}
-<section className="bg-white py-20 md:py-24">
+<section className="bg-white dark:bg-slate-950 py-20 md:py-24">
   <div className="max-w-7xl mx-auto px-6 lg:px-8">
     {tentangKamiLoading ? (
       <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-16 items-center">
@@ -502,7 +502,7 @@ useEffect(() => {
 </section>
       {/* ================= KEUNGGULAN KAMI ================= */}
 
-      <section className="bg-gray-50 py-20 md:py-24">
+      <section className="bg-gray-50 dark:bg-slate-900 py-20 md:py-24">
 
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
@@ -659,7 +659,7 @@ useEffect(() => {
 
       {/* ================= BEST SELLER ================= */}
 
-      <section className="bg-white pt-16 md:pt-20 pb-10 md:pb-12">
+      <section className="bg-white dark:bg-slate-950 pt-16 md:pt-20 pb-10 md:pb-12">
 
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
@@ -940,7 +940,7 @@ useEffect(() => {
 
       {/* ================= ARTIKEL TERBARU ================= */}
 
-      <section className="bg-white pt-6 pb-20 md:pb-24">
+      <section className="bg-white dark:bg-slate-950 pt-6 pb-20 md:pb-24">
 
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
@@ -952,7 +952,7 @@ useEffect(() => {
                 Informasi & Wawasan
               </p>
 
-              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-blue-950">
+              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-blue-950 dark:text-slate-100">
                 Artikel Terbaru
               </h2>
 
@@ -1008,7 +1008,7 @@ useEffect(() => {
                 <Link
                   key={article.id}
                   href={`/artikel/${article.slug}`}
-                  className="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300"
+                  className="group bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300"
                 >
 
                   {/* IMAGE */}
@@ -1057,7 +1057,7 @@ useEffect(() => {
 
                     </div>
 
-                    <h3 className="mt-4 text-xl font-bold text-blue-950 leading-7 group-hover:text-blue-700 transition">
+                    <h3 className="mt-4 text-xl font-bold text-blue-950 dark:text-slate-100 leading-7 group-hover:text-blue-700 transition">
                       {article.judul}
                     </h3>
 
@@ -1089,54 +1089,92 @@ useEffect(() => {
 
       </section>
 
-      {/* ================= CTA HUBUNGI KAMI ================= */}
+      
 
-      <section className="bg-gray-50 pb-20 md:pb-24 pt-4">
 
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+{/* STATISTIK KUNJUNGAN WEBSITE */}
+<section className="relative isolate overflow-hidden bg-gradient-to-b from-white via-blue-50 to-sky-100 pt-10 pb-12 sm:pt-12 sm:pb-14 lg:pt-14 lg:pb-16">
+  {/* Ornamen latar */}
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute -left-32 top-20 -z-10 h-80 w-80 rounded-full bg-blue-200/30 blur-3xl"
+  />
 
-          <div className="relative overflow-hidden rounded-2xl bg-blue-950 px-7 py-10 md:px-12 md:py-12">
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute -right-32 top-10 -z-10 h-96 w-96 rounded-full bg-amber-100/50 blur-3xl"
+  />
 
-            {/* DECORATION */}
+  <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+    <div className="mx-auto mb-10 max-w-3xl text-center sm:mb-12">
+      <div className="mx-auto mb-5 h-1 w-16 rounded-full bg-amber-400" />
 
-            <div className="absolute -right-20 -top-20 w-64 h-64 rounded-full bg-blue-900/70" />
+      <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-blue-700 sm:text-sm">
+        Statistik Website
+      </p>
 
-            <div className="absolute -left-16 -bottom-20 w-48 h-48 rounded-full bg-blue-900/50" />
+      <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-blue-950 dark:text-slate-100 sm:text-4xl lg:text-5xl">
+        Aktivitas Kunjungan Website
+      </h2>
 
-            <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-7">
+      <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">
+        Ringkasan aktivitas pengunjung website PT Tiga Warna Primer
+        untuk memberikan gambaran interaksi dengan informasi dan produk kami.
+      </p>
+    </div>
 
-              <div className="max-w-2xl">
+    <VisitorStatsPublic />
+  </div>
+</section>
 
-                <p className="text-sm font-semibold tracking-[0.18em] uppercase text-yellow-400">
-                  Hubungi Kami
-                </p>
 
-                <h2 className="mt-3 text-2xl md:text-3xl font-bold text-white leading-tight">
-                  Butuh informasi mengenai produk kami?
-                </h2>
+{/* ================= CTA HUBUNGI KAMI ================= */}
+<section className="bg-gradient-to-b from-white via-blue-50 to-sky-100 px-5 py-10 sm:px-8 sm:py-12">
+  <div className="mx-auto max-w-7xl">
+    <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-blue-100 bg-white/90 px-6 py-7 shadow-sm sm:px-8 sm:py-8 md:flex-row md:items-center lg:px-10">
 
-                <p className="mt-4 text-blue-100 leading-7">
-                  Hubungi PT Tiga Warna Primer untuk mendapatkan informasi
-                  mengenai produk dan kebutuhan industri tekstil Anda.
-                </p>
+      {/* Teks CTA */}
+      <div className="max-w-2xl">
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-700">
+          Hubungi Kami
+        </p>
 
-              </div>
+        <h2 className="mt-2 text-2xl font-bold leading-tight text-blue-950 dark:text-slate-100">
+          Butuh informasi mengenai produk kami?
+        </h2>
 
-              <Link
-                href="/kontak"
-                className="shrink-0 inline-flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-blue-950 px-6 py-3.5 rounded-lg text-sm font-bold transition"
-              >
-                Hubungi Kami
-                <span>→</span>
-              </Link>
+        <p className="mt-3 text-sm leading-6 text-slate-600 sm:text-base">
+          Hubungi PT Tiga Warna Primer untuk informasi produk dan
+          solusi kebutuhan industri tekstil Anda.
+        </p>
+      </div>
 
-            </div>
+      {/* Tombol CTA */}
+      <Link
+        href="/kontak"
+        className="inline-flex shrink-0 items-center justify-center gap-3 rounded-xl bg-yellow-400 px-6 py-3.5 text-sm font-bold text-blue-950 dark:text-slate-100 transition-colors duration-200 hover:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-200"
+      >
+        Hubungi Kami
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-5 w-5"
+          aria-hidden="true"
+        >
+          <path
+            d="M5 12h14M13 6l6 6-6 6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </Link>
 
-          </div>
+    </div>
+  </div>
+</section>
 
-        </div>
-
-      </section>
 
     </main>
   );

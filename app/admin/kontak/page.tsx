@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 type ContactData = {
   id: number;
   whatsapp: string;
+  telepon_kantor: string;
   email: string;
   alamat: string;
   jam_weekday: string;
@@ -20,6 +21,7 @@ export default function AdminKontak() {
   const [contactId, setContactId] = useState<number | null>(null);
 
   const [whatsapp, setWhatsapp] = useState("");
+  const [teleponKantor, setTeleponKantor] = useState("");
   const [email, setEmail] = useState("");
   const [alamat, setAlamat] = useState("");
   const [jamWeekday, setJamWeekday] = useState("");
@@ -40,8 +42,8 @@ export default function AdminKontak() {
       const { data, error } = await supabase
         .from("kontak")
         .select(
-          "id, whatsapp, email, alamat, jam_weekday, jam_saturday, google_maps_url, google_maps_embed, updated_at"
-        )
+  "id, whatsapp, telepon_kantor, email, alamat, jam_weekday, jam_saturday, google_maps_url, google_maps_embed, updated_at"
+)
         .limit(1)
         .single();
 
@@ -65,6 +67,7 @@ export default function AdminKontak() {
 
       setContactId(contact.id);
       setWhatsapp(contact.whatsapp ?? "");
+      setTeleponKantor(contact.telepon_kantor ?? "");
       setEmail(contact.email ?? "");
       setAlamat(contact.alamat ?? "");
       setJamWeekday(contact.jam_weekday ?? "");
@@ -94,15 +97,16 @@ export default function AdminKontak() {
     setSaving(true);
 
     const updateData = {
-      whatsapp: whatsapp.trim(),
-      email: email.trim(),
-      alamat: alamat.trim(),
-      jam_weekday: jamWeekday.trim(),
-      jam_saturday: jamSaturday.trim(),
-      google_maps_url: googleMapsUrl.trim(),
-      google_maps_embed: googleMapsEmbed.trim(),
-      updated_at: new Date().toISOString(),
-    };
+  whatsapp: whatsapp.trim(),
+  telepon_kantor: teleponKantor.trim(),
+  email: email.trim(),
+  alamat: alamat.trim(),
+  jam_weekday: jamWeekday.trim(),
+  jam_saturday: jamSaturday.trim(),
+  google_maps_url: googleMapsUrl.trim(),
+  google_maps_embed: googleMapsEmbed.trim(),
+  updated_at: new Date().toISOString(),
+};
 
     console.log("Mencoba update kontak:", {
       contactId,
@@ -114,8 +118,8 @@ export default function AdminKontak() {
       .update(updateData)
       .eq("id", contactId)
       .select(
-        "id, whatsapp, email, alamat, jam_weekday, jam_saturday, google_maps_url, google_maps_embed, updated_at"
-      )
+  "id, whatsapp, telepon_kantor, email, alamat, jam_weekday, jam_saturday, google_maps_url, google_maps_embed, updated_at"
+)
       .single();
 
     if (error) {
@@ -152,6 +156,7 @@ export default function AdminKontak() {
 
     setContactId(updatedContact.id);
     setWhatsapp(updatedContact.whatsapp ?? "");
+    setTeleponKantor(updatedContact.telepon_kantor ?? "");
     setEmail(updatedContact.email ?? "");
     setAlamat(updatedContact.alamat ?? "");
     setJamWeekday(updatedContact.jam_weekday ?? "");
@@ -260,6 +265,30 @@ export default function AdminKontak() {
                     Gunakan format internasional tanpa tanda +.
                   </p>
                 </div>
+                {/* Telepon Kantor */}
+{/* Telepon Kantor */}
+<div>
+  <label
+    htmlFor="teleponKantor"
+    className="mb-2 block text-sm font-semibold text-gray-700"
+  >
+    Telepon Kantor
+  </label>
+
+  <input
+    id="teleponKantor"
+    type="tel"
+    value={teleponKantor}
+    onChange={(e) => setTeleponKantor(e.target.value)}
+    placeholder="Contoh: 021-5555-5555"
+    className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+    required
+  />
+
+  <p className="mt-2 text-xs text-gray-400">
+    Masukkan nomor telepon kantor yang dapat dihubungi.
+  </p>
+</div>
 
                 {/* Email */}
                 <div>

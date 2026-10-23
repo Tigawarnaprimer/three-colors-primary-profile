@@ -3,9 +3,11 @@ export const dynamic = "force-dynamic";
 async function getContact() {
   const { data, error } = await supabase
     .from("kontak")
-    .select(
-      "whatsapp, email, alamat, jam_weekday, jam_saturday, google_maps_url, google_maps_embed"
-    )
+    
+.select(
+  "whatsapp, telepon_kantor, email, alamat, jam_weekday, jam_saturday, google_maps_url, google_maps_embed"
+)
+
     .limit(1)
     .single();
 
@@ -39,6 +41,25 @@ const WhatsAppIcon = ({ className = "h-6 w-6" }) => (
     <path d="M12.004 2C6.478 2 2 6.477 2 12c0 1.76.46 3.412 1.265 4.85L2 22l5.31-1.245A9.96 9.96 0 0 0 12.004 22C17.522 22 22 17.523 22 12S17.522 2 12.004 2zm0 18.2a8.15 8.15 0 0 1-4.16-1.14l-.298-.177-3.153.738.67-3.075-.194-.316A8.15 8.15 0 1 1 12.004 20.2z" />
   </svg>
 );
+
+
+const PhoneIcon = ({ className = "h-5 w-5" }) => (
+  <svg
+    className={className}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M5 4h3l2 5-2 1.5a15 15 0 0 0 5.5 5.5L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"
+    />
+  </svg>
+);
+
 
 const MailIcon = () => (
   <svg
@@ -220,333 +241,341 @@ export default async function Kontak() {
 
   return (
     <main className="min-h-screen bg-white pt-20">
-      {/* =====================================================
-          HERO
-      ===================================================== */}
-      <section className="relative overflow-hidden bg-blue-950">
-        <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-blue-800/30 blur-3xl" />
+      
+{/* =====================================================
+    HERO KONTAK
+===================================================== */}
+<section className="relative overflow-hidden bg-white">
 
-        <div className="absolute -left-32 bottom-0 h-72 w-72 rounded-full bg-blue-700/20 blur-3xl" />
+  {/* BACKGROUND IMAGE */}
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    style={{
+      backgroundImage: "url('/images/bg.jpg')",
+    }}
+  />
 
-        <div className="relative mx-auto max-w-7xl px-6 py-14 md:py-16">
-          <div className="max-w-3xl">
-            <div className="mb-4 flex items-center gap-3">
-              <span className="h-1 w-10 rounded-full bg-yellow-400" />
+  {/* CONTENT */}
+  <div className="relative mx-auto max-w-7xl px-6 py-14 md:py-16">
+    <div className="max-w-3xl">
 
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-yellow-400">
-                Kontak
-              </p>
-            </div>
+      {/* LABEL */}
+      <div className="mb-4 flex items-center gap-3">
+        <span className="h-1 w-10 rounded-full bg-yellow-400" />
 
-            <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl">
-              Hubungi <span className="text-yellow-400">Kami</span>
-            </h1>
+        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-yellow-400">
+          Kontak
+        </p>
+      </div>
 
-            <p className="mt-4 max-w-2xl text-base leading-7 text-blue-100 md:text-lg">
-              Hubungi PT Tiga Warna Primer untuk mendapatkan informasi produk,
-              konsultasi kebutuhan industri tekstil, maupun informasi lainnya.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* HEADING */}
+      <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl">
+        Hubungi <span className="text-yellow-400">Kami</span>
+      </h1>
+
+      {/* DESCRIPTION */}
+      <p className="mt-4 max-w-2xl text-base leading-7 text-white md:text-lg">
+        Hubungi PT Tiga Warna Primer untuk mendapatkan informasi produk,
+        konsultasi kebutuhan industri tekstil, maupun informasi lainnya.
+      </p>
+
+    </div>
+  </div>
+</section>
+
 
       {/* =====================================================
           CONTACT
       ===================================================== */}
-      <section className="bg-gray-50 py-12 md:py-14">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-            {/* =================================================
-                INFORMASI KONTAK
-            ================================================= */}
-            <div className="rounded-2xl border border-gray-200 bg-white p-7 shadow-sm md:p-8">
-              <div className="mb-6">
-                <div className="mb-4 h-1 w-10 rounded-full bg-yellow-400" />
+      
+{/* ===================== INFORMASI KONTAK ===================== */}
+<section className="bg-slate-50 py-14 md:py-20">
+  <div className="mx-auto max-w-7xl px-5 sm:px-6">
+    <div className="grid items-start gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8">
 
-                <h2 className="text-2xl font-bold text-blue-950 md:text-3xl">
-                  Informasi Kontak
-                </h2>
-
-                <p className="mt-2 text-sm text-gray-500">
-                  Silakan hubungi kami melalui informasi kontak berikut.
-                </p>
-              </div>
-
-              <div className="divide-y divide-gray-100">
-                {/* WhatsApp */}
-                <a
-                  href={whatsappLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-4 py-4 first:pt-0"
-                >
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-600 transition group-hover:bg-green-100">
-                    <WhatsAppIcon />
-                  </div>
-
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-500">
-                      WhatsApp Konsultasi
-                    </p>
-
-                    <p className="mt-1 font-semibold text-blue-950 group-hover:text-blue-700">
-                      {whatsappDisplay}
-                    </p>
-                  </div>
-
-                  <span className="text-gray-300 transition group-hover:translate-x-1 group-hover:text-blue-700">
-                    →
-                  </span>
-                </a>
-
-                {/* Email */}
-                <a
-                  href={`mailto:${contact.email}`}
-                  className="group flex items-center gap-4 py-4"
-                >
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
-                    <MailIcon />
-                  </div>
-
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-500">Email</p>
-
-                    <p className="mt-1 break-all font-semibold text-blue-950 group-hover:text-blue-700">
-                      {contact.email}
-                    </p>
-                  </div>
-
-                  <span className="text-gray-300 transition group-hover:translate-x-1 group-hover:text-blue-700">
-                    →
-                  </span>
-                </a>
-
-                {/* Alamat */}
-                <div className="flex items-start gap-4 py-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-yellow-50 text-yellow-600">
-                    <LocationIcon />
-                  </div>
-
-                  <div>
-                    <p className="text-sm text-gray-500">
-                      Alamat Kantor
-                    </p>
-
-                    <p className="mt-1 font-semibold leading-6 text-blue-950">
-                      {contact.alamat}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Jam */}
-                {/* Jam */}
-<div className="flex items-start gap-4 py-4 last:pb-0">
-  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-500">
-    <ClockIcon />
-  </div>
-
-  <div>
-    <p className="text-sm text-gray-500">
-      Jam Operasional
-    </p>
-
-    <p className="mt-1 font-semibold leading-6 text-blue-950">
-      {contact.jam_weekday}
-    </p>
-
-    <p className="font-semibold leading-6 text-blue-950">
-      {contact.jam_saturday}
-    </p>
-  </div>
-</div>
-              </div>
-            </div>
-
-            {/* =================================================
-                KONSULTASI
-            ================================================= */}
-            <div className="relative overflow-hidden rounded-2xl bg-blue-950 p-7 md:p-8">
-              {/* Decorative background */}
-              <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-800/40 blur-2xl" />
-
-              <div className="absolute -bottom-24 -left-20 h-64 w-64 rounded-full bg-blue-700/20 blur-2xl" />
-
-              <div className="absolute right-[-100px] top-20 h-72 w-72 rounded-full border border-blue-400/10" />
-
-              <div className="relative z-10">
-                {/* Header */}
-                <div className="flex items-start justify-between gap-5">
-                  <div>
-                    <div className="mb-4 h-1 w-10 rounded-full bg-yellow-400" />
-
-                    <p className="text-xs font-semibold uppercase tracking-[0.25em] text-yellow-400">
-                      Konsultasi
-                    </p>
-
-                    <h2 className="mt-3 text-3xl font-bold leading-tight text-white md:text-[34px]">
-                      Butuh Informasi
-                      <br />
-                      <span className="text-yellow-400">
-                        Produk?
-                      </span>
-                    </h2>
-                  </div>
-
-                  {/* WhatsApp besar */}
-                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-green-500 shadow-lg shadow-green-950/30 md:h-24 md:w-24">
-                    <WhatsAppIcon className="h-11 w-11 text-white md:h-14 md:w-14" />
-                  </div>
-                </div>
-
-                {/* Deskripsi */}
-                <p className="mt-4 max-w-lg text-sm leading-6 text-blue-100 md:text-base">
-                  Konsultasikan kebutuhan produk tekstil Anda bersama tim
-                  PT Tiga Warna Primer melalui WhatsApp.
-                </p>
-
-                {/* Benefits */}
-                <div className="mt-6 grid grid-cols-3 divide-x divide-blue-400/20">
-                  <div className="px-2 text-center first:pl-0">
-                    <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-blue-800 text-white">
-                      <ChatIcon />
-                    </div>
-
-                    <p className="mt-2 text-xs font-semibold leading-4 text-white">
-                      Respon
-                      <br />
-                      Cepat
-                    </p>
-                  </div>
-
-                  <div className="px-2 text-center">
-                    <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-blue-800 text-white">
-                      <ShieldIcon />
-                    </div>
-
-                    <p className="mt-2 text-xs font-semibold leading-4 text-white">
-                      Konsultasi
-                      <br />
-                      Gratis
-                    </p>
-                  </div>
-
-                  <div className="px-2 text-center last:pr-0">
-                    <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-blue-800 text-white">
-                      <TeamIcon />
-                    </div>
-
-                    <p className="mt-2 text-xs font-semibold leading-4 text-white">
-                      Tim
-                      <br />
-                      Profesional
-                    </p>
-                  </div>
-                </div>
-
-                {/* CTA */}
-                <a
-                  href={whatsappLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-6 flex w-full items-center gap-3 rounded-xl bg-green-500 px-5 py-3.5 font-semibold text-white shadow-lg transition hover:bg-green-600"
-                >
-                  <WhatsAppIcon className="h-6 w-6" />
-
-                  <span>WhatsApp Konsultasi</span>
-
-                  <span className="ml-auto text-xl">
-                    →
-                  </span>
-                </a>
-
-                {/* Nomor */}
-                <div className="mt-3 flex items-center gap-2 text-sm text-blue-200">
-                  <WhatsAppIcon className="h-4 w-4 text-green-400" />
-
-                  {whatsappDisplay}
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Informasi Kontak */}
+      <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8">
+        <div className="mb-7">
+          <div className="mb-4 h-1 w-12 rounded-full bg-amber-400" />
+          <h2 className="text-2xl font-bold tracking-tight text-blue-950 sm:text-3xl">
+            Informasi Kontak
+          </h2>
+          <p className="mt-2 max-w-md text-sm leading-6 text-slate-500">
+            Hubungi tim PT Tiga Warna Primer untuk informasi dan konsultasi produk.
+          </p>
         </div>
-      </section>
 
-      {/* =====================================================
-          LOKASI
-      ===================================================== */}
-      <section className="bg-white py-12 md:py-14">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-              <div className="mb-3 flex items-center gap-3">
-                <span className="h-1 w-10 rounded-full bg-yellow-400" />
+        <div className="divide-y divide-slate-100">
 
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
-                  Lokasi
-                </p>
-              </div>
-
-              <h2 className="text-2xl font-bold text-blue-950 md:text-3xl">
-                Head Office PT Tiga Warna Primer
-              </h2>
-
-              <p className="mt-1 text-sm text-gray-500">
-                Ruko Victoria Park, Karawaci, Kota Tangerang
+          {/* WhatsApp */}
+          <a
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-4 py-4 first:pt-0"
+          >
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-600 transition-colors group-hover:bg-green-100">
+              <WhatsAppIcon />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-medium text-slate-500">
+                WhatsApp Konsultasi
+              </p>
+              <p className="mt-1 break-words text-sm font-semibold text-blue-950 transition-colors group-hover:text-blue-700">
+                {whatsappDisplay}
               </p>
             </div>
+            <span className="text-slate-400 transition-transform group-hover:translate-x-1">
+              →
+            </span>
+          </a>
 
+          {/* Telepon Kantor */}
+          {contact.telepon_kantor?.trim() && (
             <a
-              href={contact.google_maps_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-blue-700 px-5 py-2.5 text-sm font-semibold text-blue-700 transition hover:bg-blue-700 hover:text-white"
+              href={`tel:${contact.telepon_kantor.replace(/[^\d+]/g, "")}`}
+              className="group flex items-center gap-4 py-4"
             >
-              Buka di Google Maps
-              <span>↗</span>
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600 transition-colors group-hover:bg-amber-100">
+                <PhoneIcon />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-medium text-slate-500">
+                  Telepon Kantor
+                </p>
+                <p className="mt-1 break-words text-sm font-semibold text-blue-950 transition-colors group-hover:text-blue-700">
+                  {contact.telepon_kantor}
+                </p>
+              </div>
+              <span className="text-slate-400 transition-transform group-hover:translate-x-1">
+                →
+              </span>
             </a>
+          )}
+
+          {/* Email */}
+          <a
+            href={`mailto:${contact.email}`}
+            className="group flex items-center gap-4 py-4"
+          >
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
+              <MailIcon />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-medium text-slate-500">Email</p>
+              <p className="mt-1 break-all text-sm font-semibold text-blue-950 transition-colors group-hover:text-blue-700">
+                {contact.email}
+              </p>
+            </div>
+            <span className="text-slate-400 transition-transform group-hover:translate-x-1">
+              →
+            </span>
+          </a>
+
+          {/* Alamat */}
+          <div className="flex items-start gap-4 py-4">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-yellow-50 text-amber-600">
+              <LocationIcon />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-medium text-slate-500">
+                Alamat Kantor
+              </p>
+              <p className="mt-1 text-sm font-semibold leading-6 text-blue-950">
+                {contact.alamat}
+              </p>
+            </div>
           </div>
 
-          {/* MAP */}
-          <div className="relative overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
-            <iframe
-              src={contact.google_maps_embed}
-              width="100%"
-              height="400"
-              style={{
-                border: 0,
-                pointerEvents: "none",
-              }}
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Lokasi Head Office PT Tiga Warna Primer"
-            />
+          {/* Jam Operasional */}
+          <div className="flex items-start gap-4 py-4 last:pb-0">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-rose-50 text-rose-500">
+              <ClockIcon />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-medium text-slate-500">
+                Jam Operasional
+              </p>
+              <p className="mt-1 text-sm font-semibold leading-6 text-blue-950">
+                {contact.jam_weekday}
+              </p>
+              <p className="text-sm leading-6 text-slate-600">
+                {contact.jam_saturday}
+              </p>
+            </div>
+          </div>
 
-            <a
-              href={contact.google_maps_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="absolute bottom-5 left-5 rounded-xl bg-white px-4 py-3 shadow-lg transition hover:shadow-xl"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-blue-700">
-                  <LocationIcon />
-                </div>
+        </div>
+      </div>
 
-                <div>
-                  <p className="text-sm font-semibold text-blue-950">
-                    Head Office
-                  </p>
+      {/* Kartu Konsultasi */}
+      <div className="relative isolate overflow-hidden rounded-2xl border border-blue-100 bg-gradient-to-br from-white via-white to-blue-50 p-6 shadow-sm sm:p-8">
 
-                  <p className="text-xs text-gray-500">
-                    Klik untuk melihat lokasi
-                  </p>
-                </div>
-              </div>
-            </a>
+        {/* Ornamen dekoratif */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-16 -top-16 -z-10 h-56 w-56 rounded-full border-[28px] border-blue-100/40"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-4 top-12 -z-10 h-24 w-24 rounded-full bg-amber-100/40 blur-2xl"
+        />
+
+        <div className="mb-6 h-1 w-12 rounded-full bg-amber-400" />
+
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-700">
+              Konsultasi
+            </p>
+            <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-blue-950 sm:text-3xl">
+              Butuh Informasi
+              <br />
+              <span className="text-blue-700">Produk?</span>
+            </h2>
+          </div>
+
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-600 sm:h-14 sm:w-14">
+            <WhatsAppIcon className="h-7 w-7 sm:h-8 sm:w-8" />
           </div>
         </div>
-      </section>
+
+        <p className="mt-4 text-sm leading-7 text-slate-600">
+          Konsultasikan kebutuhan produk tekstil Anda bersama tim
+          PT Tiga Warna Primer melalui WhatsApp.
+        </p>
+
+        {/* Keunggulan */}
+        <div className="mt-7 grid grid-cols-3 divide-x divide-blue-100 border-y border-blue-100 py-5">
+          <div className="px-2 text-center first:pl-0">
+            <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-blue-50 text-blue-700">
+              <ChatIcon />
+            </div>
+            <p className="mt-2 text-xs font-semibold leading-5 text-slate-700">
+              Respon Cepat
+            </p>
+          </div>
+
+          <div className="px-2 text-center">
+            <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-blue-50 text-blue-700">
+              <ShieldIcon />
+            </div>
+            <p className="mt-2 text-xs font-semibold leading-5 text-slate-700">
+              Konsultasi Gratis
+            </p>
+          </div>
+
+          <div className="px-2 text-center last:pr-0">
+            <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-blue-50 text-blue-700">
+              <TeamIcon />
+            </div>
+            <p className="mt-2 text-xs font-semibold leading-5 text-slate-700">
+              Tim Profesional
+            </p>
+          </div>
+        </div>
+
+        {/* Tombol WhatsApp */}
+        <a
+          href={whatsappLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 flex w-full items-center gap-3 rounded-xl bg-green-600 px-5 py-4 text-sm font-semibold text-white shadow-sm transition-all hover:bg-green-700 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-green-200"
+        >
+          <WhatsAppIcon className="h-5 w-5 shrink-0" />
+          <span>WhatsApp Konsultasi</span>
+          <span aria-hidden="true" className="ml-auto text-lg">
+            →
+          </span>
+        </a>
+
+        <p className="mt-3 text-center text-xs text-slate-500">
+          Tim kami siap membantu kebutuhan informasi produk Anda.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{/* ===================== LOKASI KANTOR ===================== */}
+<section className="bg-white py-14 md:py-20">
+  <div className="mx-auto max-w-7xl px-5 sm:px-6">
+
+    {/* Header Lokasi */}
+    <div className="mb-7 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <div className="mb-3 flex items-center gap-3">
+          <span className="h-1 w-10 rounded-full bg-amber-400" />
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-700">
+            Lokasi Kami
+          </p>
+        </div>
+
+        <h2 className="text-2xl font-bold tracking-tight text-blue-950 sm:text-3xl">
+          Head Office PT Tiga Warna Primer
+        </h2>
+
+        <p className="mt-2 flex items-start gap-2 text-sm leading-6 text-slate-500">
+          <LocationIcon />
+          <span>Ruko Victoria Park, Karawaci, Kota Tangerang</span>
+        </p>
+      </div>
+
+      <a
+        href={contact.google_maps_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex w-fit shrink-0 items-center justify-center gap-2 rounded-xl border border-blue-200 bg-white px-5 py-3 text-sm font-semibold text-blue-800 transition-colors hover:border-blue-800 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-100"
+      >
+        Buka di Google Maps
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    {/* Peta */}
+    <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm">
+      <iframe
+        src={contact.google_maps_embed}
+        width="100%"
+        height="420"
+        style={{ border: 0 }}
+        loading="lazy"
+        allowFullScreen
+        referrerPolicy="no-referrer-when-downgrade"
+        title="Lokasi Head Office PT Tiga Warna Primer"
+        className="block w-full"
+      />
+
+      {/* Kartu informasi di atas peta */}
+      <a
+        href={contact.google_maps_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute bottom-4 left-4 right-4 flex items-center gap-3 rounded-xl border border-slate-100 bg-white/95 p-4 shadow-lg backdrop-blur-sm transition-shadow hover:shadow-xl sm:bottom-5 sm:left-5 sm:right-auto sm:min-w-72"
+      >
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-700">
+          <LocationIcon />
+        </div>
+
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold text-blue-950">
+            Head Office
+          </p>
+          <p className="mt-1 text-xs leading-5 text-slate-500">
+            Ruko Victoria Park, Karawaci, Kota Tangerang
+          </p>
+        </div>
+
+        <span aria-hidden="true" className="text-slate-400">
+          ↗
+        </span>
+      </a>
+    </div>
+
+  </div>
+</section>
+
     </main>
   );
 }
