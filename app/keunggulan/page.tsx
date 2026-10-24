@@ -28,42 +28,48 @@ export default async function Keunggulan() {
   return (
     <main className="pt-20 bg-gray-50">
 
-      {/* ================= HERO ================= */}
-      <section className="relative overflow-hidden bg-blue-950">
-        {/* Dekorasi */}
-        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-blue-900/60" />
+     
+{/* ================= HERO ================= */}
+<section className="relative overflow-hidden bg-white">
 
-        <div className="absolute -bottom-40 -left-20 w-80 h-80 rounded-full bg-blue-900/40" />
+  {/* BACKGROUND IMAGE */}
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    style={{
+      backgroundImage: "url('/images/bg.jpg')",
+    }}
+  />
 
-        <div className="absolute top-20 right-20 w-3 h-3 rounded-full bg-yellow-400/70" />
+  {/* CONTENT */}
+  <div className="relative max-w-6xl mx-auto px-6 lg:px-8 py-16 md:py-20">
+    <div className="max-w-3xl">
 
-        <div className="absolute bottom-16 right-40 w-2 h-2 rounded-full bg-blue-400/60" />
+      {/* LABEL */}
+      <div className="flex items-center gap-3">
+        <span className="w-10 h-[2px] bg-yellow-400" />
 
-        <div className="relative max-w-6xl mx-auto px-6 lg:px-8 py-16 md:py-20">
-          <div className="max-w-3xl">
+        <p className="text-sm font-semibold tracking-[0.2em] uppercase text-yellow-400">
+          Keunggulan Kami
+        </p>
+      </div>
 
-            <div className="flex items-center gap-3">
-              <span className="w-10 h-[2px] bg-yellow-400" />
+      {/* HEADING */}
+      <h1 className="mt-5 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+        Mengutamakan Kualitas
+        <br />
+        dan Kebutuhan Pelanggan
+      </h1>
 
-              <p className="text-sm font-semibold tracking-[0.2em] uppercase text-yellow-400">
-                Keunggulan Kami
-              </p>
-            </div>
+      {/* DESCRIPTION */}
+      <p className="mt-5 max-w-2xl text-base md:text-lg text-white leading-7">
+        Kami berkomitmen menghadirkan produk dan pelayanan yang
+        mendukung kebutuhan pelanggan di industri tekstil.
+      </p>
 
-            <h1 className="mt-5 text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
-              Mengutamakan Kualitas
-              <br />
-              dan Kebutuhan Pelanggan
-            </h1>
+    </div>
+  </div>
+</section>
 
-            <p className="mt-5 max-w-2xl text-base md:text-lg text-blue-100 leading-7">
-              Kami berkomitmen menghadirkan produk dan pelayanan yang
-              mendukung kebutuhan pelanggan di industri tekstil.
-            </p>
-
-          </div>
-        </div>
-      </section>
 
       {/* ================= KEUNGGULAN ================= */}
       <section className="py-16 md:py-20">
