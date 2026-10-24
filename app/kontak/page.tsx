@@ -409,90 +409,108 @@ export default async function Kontak() {
       </div>
 
       {/* Kartu Konsultasi */}
-      <div className="relative isolate overflow-hidden rounded-2xl border border-blue-100 bg-gradient-to-br from-white via-white to-blue-50 p-6 shadow-sm sm:p-8">
+      
+<div className="relative isolate overflow-hidden rounded-2xl border border-blue-100 bg-gradient-to-br from-white via-white to-blue-50/80 p-6 shadow-sm transition-shadow duration-300 hover:shadow-md sm:p-8">
+  {/* Ornamen dekoratif */}
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute -right-20 -top-20 -z-10 h-64 w-64 rounded-full border-[32px] border-blue-100/40"
+  />
 
-        {/* Ornamen dekoratif */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-16 -top-16 -z-10 h-56 w-56 rounded-full border-[28px] border-blue-100/40"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-4 top-12 -z-10 h-24 w-24 rounded-full bg-amber-100/40 blur-2xl"
-        />
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute right-16 top-24 -z-10 h-32 w-32 rounded-full bg-amber-100/40 blur-3xl"
+  />
 
-        <div className="mb-6 h-1 w-12 rounded-full bg-amber-400" />
+  {/* Aksen atas */}
+  <div className="mb-6 h-1 w-14 rounded-full bg-amber-400" />
 
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-700">
-              Konsultasi
-            </p>
-            <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-blue-950 sm:text-3xl">
-              Butuh Informasi
-              <br />
-              <span className="text-blue-700">Produk?</span>
-            </h2>
-          </div>
-
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-600 sm:h-14 sm:w-14">
-            <WhatsAppIcon className="h-7 w-7 sm:h-8 sm:w-8" />
-          </div>
-        </div>
-
-        <p className="mt-4 text-sm leading-7 text-slate-600">
-          Konsultasikan kebutuhan produk tekstil Anda bersama tim
-          PT Tiga Warna Primer melalui WhatsApp.
-        </p>
-
-        {/* Keunggulan */}
-        <div className="mt-7 grid grid-cols-3 divide-x divide-blue-100 border-y border-blue-100 py-5">
-          <div className="px-2 text-center first:pl-0">
-            <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-blue-50 text-blue-700">
-              <ChatIcon />
-            </div>
-            <p className="mt-2 text-xs font-semibold leading-5 text-slate-700">
-              Respon Cepat
-            </p>
-          </div>
-
-          <div className="px-2 text-center">
-            <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-blue-50 text-blue-700">
-              <ShieldIcon />
-            </div>
-            <p className="mt-2 text-xs font-semibold leading-5 text-slate-700">
-              Konsultasi Gratis
-            </p>
-          </div>
-
-          <div className="px-2 text-center last:pr-0">
-            <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-blue-50 text-blue-700">
-              <TeamIcon />
-            </div>
-            <p className="mt-2 text-xs font-semibold leading-5 text-slate-700">
-              Tim Profesional
-            </p>
-          </div>
-        </div>
-
-        {/* Tombol WhatsApp */}
-        <a
-          href={whatsappLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-6 flex w-full items-center gap-3 rounded-xl bg-green-600 px-5 py-4 text-sm font-semibold text-white shadow-sm transition-all hover:bg-green-700 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-green-200"
-        >
-          <WhatsAppIcon className="h-5 w-5 shrink-0" />
-          <span>WhatsApp Konsultasi</span>
-          <span aria-hidden="true" className="ml-auto text-lg">
-            →
-          </span>
-        </a>
-
-        <p className="mt-3 text-center text-xs text-slate-500">
-          Tim kami siap membantu kebutuhan informasi produk Anda.
+  {/* Header dan ilustrasi */}
+  <div className="flex items-center justify-between gap-2 sm:gap-4">
+    <div className="min-w-0 flex-1">
+      <div className="flex items-center gap-2">
+        <span className="h-2 w-2 rounded-full bg-amber-400" />
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-700">
+          Konsultasi Produk
         </p>
       </div>
+
+      <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-blue-950 sm:text-3xl">
+        Butuh Informasi
+        <br />
+        <span className="text-blue-700">Produk?</span>
+      </h2>
+
+      <p className="mt-3 max-w-[250px] text-sm leading-6 text-slate-600">
+        Kami siap membantu menemukan solusi tekstil yang sesuai dengan kebutuhan Anda.
+      </p>
+    </div>
+
+    {/* Ikon konsultasi tanpa background atau shape */}
+    <div className="flex w-[42%] max-w-[190px] shrink-0 items-center justify-center sm:w-[44%] sm:max-w-[220px]">
+      <img
+        src="/images/ikon-konusl.png"
+        alt="Petugas konsultasi PT Tiga Warna Primer"
+        className="h-auto w-full object-contain drop-shadow-sm"
+        loading="lazy"
+      />
+    </div>
+  </div>
+
+  {/* Keunggulan layanan */}
+  <div className="mt-7 grid grid-cols-3 divide-x divide-blue-100 border-y border-blue-100 py-5">
+    <div className="px-1 text-center sm:px-2">
+      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
+        <ChatIcon />
+      </div>
+      <p className="mt-2 text-xs font-semibold leading-5 text-slate-700">
+        Respon Cepat
+      </p>
+    </div>
+
+    <div className="px-1 text-center sm:px-2">
+      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
+        <ShieldIcon />
+      </div>
+      <p className="mt-2 text-xs font-semibold leading-5 text-slate-700">
+        Konsultasi Gratis
+      </p>
+    </div>
+
+    <div className="px-1 text-center sm:px-2">
+      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
+        <TeamIcon />
+      </div>
+      <p className="mt-2 text-xs font-semibold leading-5 text-slate-700">
+        Tim Profesional
+      </p>
+    </div>
+  </div>
+
+  {/* Tombol WhatsApp */}
+  <a
+    href={whatsappLink}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group mt-6 flex w-full items-center gap-3 rounded-xl bg-green-600 px-5 py-4 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-green-700 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-green-200"
+  >
+    <WhatsAppIcon className="h-5 w-5 shrink-0" />
+
+    <span>WhatsApp Konsultasi</span>
+
+    <span
+      aria-hidden="true"
+      className="ml-auto text-xl transition-transform duration-200 group-hover:translate-x-1"
+    >
+      →
+    </span>
+  </a>
+
+  <p className="mt-3 text-center text-xs leading-5 text-slate-500">
+    Tim kami siap membantu kebutuhan informasi produk Anda.
+  </p>
+</div>
+
 
     </div>
   </div>
