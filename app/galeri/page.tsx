@@ -1,4 +1,6 @@
 import { supabase } from "@/lib/supabase";
+import Link from "next/link";
+
 export const dynamic = "force-dynamic";
 type GalleryItem = {
   id: number;
@@ -164,59 +166,51 @@ export default async function GaleriPage() {
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 
               {gallery.map((item) => (
+  <Link
+    key={item.id}
+    href={`/galeri/${item.id}`}
+    className="group block overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_8px_25px_rgba(15,23,42,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(15,23,42,0.12)]"
+  >
+    {/* IMAGE */}
+    <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
+      <img
+        src={item.gambar_url}
+        alt={item.judul}
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
 
-                <article
-                  key={item.id}
-                  className="
-                    group
-                    overflow-hidden
-                    rounded-2xl
-                    border
-                    border-gray-100
-                    bg-white
-                    shadow-[0_8px_25px_rgba(15,23,42,0.07)]
-                    transition-all
-                    duration-300
-                    hover:-translate-y-1
-                    hover:shadow-[0_14px_30px_rgba(15,23,42,0.10)]
-                  "
-                >
+      {/* OVERLAY */}
+      <div className="absolute inset-0 flex items-end bg-gradient-to-t from-blue-950/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <div className="p-5 text-white">
+          <span className="text-sm font-semibold">
+            Lihat Dokumentasi →
+          </span>
+        </div>
+      </div>
+    </div>
 
-                  {/* IMAGE */}
-                  <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
+    {/* CONTENT */}
+    <div className="p-6">
+      <h3 className="text-lg font-bold leading-snug text-blue-950 transition-colors group-hover:text-blue-700">
+        {item.judul}
+      </h3>
 
-                    <img
-                      src={item.gambar_url}
-                      alt={item.judul}
-                      className="
-                        h-full
-                        w-full
-                        object-cover
-                        transition-transform
-                        duration-500
-                        group-hover:scale-105
-                      "
-                    />
+      <p className="mt-3 line-clamp-2 text-sm leading-6 text-gray-500">
+        {item.deskripsi}
+      </p>
 
-                  </div>
+      <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-4">
+        <span className="text-sm font-semibold text-blue-700">
+          Lihat Selengkapnya
+        </span>
 
-
-                  {/* CONTENT */}
-                  <div className="p-6">
-
-                    <h3 className="text-lg font-bold leading-snug text-blue-950">
-                      {item.judul}
-                    </h3>
-
-                    <p className="mt-3 line-clamp-2 text-sm leading-6 text-gray-500">
-                      {item.deskripsi}
-                    </p>
-
-                  </div>
-
-                </article>
-
-              ))}
+        <span className="text-lg text-blue-700 transition-transform group-hover:translate-x-1">
+          →
+        </span>
+      </div>
+    </div>
+  </Link>
+))}
 
             </div>
 
