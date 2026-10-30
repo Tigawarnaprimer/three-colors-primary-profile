@@ -1,4 +1,6 @@
 import { supabase } from "@/lib/supabase";
+import Link from "next/link";
+
 export const dynamic = "force-dynamic";
 type GalleryItem = {
   id: number;
@@ -28,184 +30,19 @@ export default async function GaleriPage() {
 
   return (
     <main className="min-h-screen bg-white">
-{/* Hero */}
-<section className="relative overflow-hidden bg-blue-950">
+      
+{/* ================= HERO GALERI ================= */}
+<section className="relative overflow-hidden bg-white">
 
-  {/* ================= BACKGROUND SHAPES ================= */}
-
-  {/* Glow / Circle kiri atas */}
+  {/* BACKGROUND IMAGE */}
   <div
-    className="
-      absolute
-      -left-32
-      -top-40
-      h-[28rem]
-      w-[28rem]
-      rounded-full
-      bg-blue-900/40
-    "
-  />
-
-  {/* Circle kanan atas */}
-  <div
-    className="
-      absolute
-      -right-40
-      -top-48
-      h-[30rem]
-      w-[30rem]
-      rounded-full
-      bg-blue-900/40
-    "
-  />
-
-  {/* Circle kiri bawah */}
-  <div
-    className="
-      absolute
-      -bottom-48
-      -left-32
-      h-[32rem]
-      w-[32rem]
-      rounded-full
-      bg-blue-900/30
-    "
-  />
-
-  {/* ================= DOT PATTERN ================= */}
-
-  {/* Dot kiri atas */}
-  <div
-    className="
-      absolute
-      left-4
-      top-4
-      h-36
-      w-36
-      opacity-60
-    "
+    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
     style={{
-      backgroundImage:
-        "radial-gradient(circle, rgba(37, 129, 255, 0.8) 2px, transparent 2px)",
-      backgroundSize: "18px 18px",
+      backgroundImage: "url('/images/bg.jpg')",
     }}
   />
 
-  {/* Dot kanan bawah */}
-  <div
-    className="
-      absolute
-      bottom-4
-      right-4
-      h-36
-      w-36
-      opacity-50
-    "
-    style={{
-      backgroundImage:
-        "radial-gradient(circle, rgba(37, 129, 255, 0.7) 2px, transparent 2px)",
-      backgroundSize: "18px 18px",
-    }}
-  />
-
-  {/* ================= FLOWING LINES ================= */}
-
-  <svg
-    className="
-      pointer-events-none
-      absolute
-      -bottom-16
-      left-0
-      h-[360px]
-      w-full
-      opacity-60
-    "
-    viewBox="0 0 1440 360"
-    fill="none"
-    preserveAspectRatio="none"
-  >
-    <path
-      d="M-100 230 C300 380 650 380 1000 180 C1190 70 1330 30 1540 -50"
-      stroke="#1687ff"
-      strokeWidth="1.2"
-    />
-    <path
-      d="M-100 245 C300 395 660 395 1010 195 C1200 85 1340 45 1540 -35"
-      stroke="#1687ff"
-      strokeWidth="1.2"
-    />
-    <path
-      d="M-100 260 C300 410 670 410 1020 210 C1210 100 1350 60 1540 -20"
-      stroke="#1687ff"
-      strokeWidth="1.2"
-    />
-    <path
-      d="M-100 275 C300 425 680 425 1030 225 C1220 115 1360 75 1540 -5"
-      stroke="#1687ff"
-      strokeWidth="1.2"
-    />
-    <path
-      d="M-100 290 C300 440 690 440 1040 240 C1230 130 1370 90 1540 10"
-      stroke="#1687ff"
-      strokeWidth="1.2"
-    />
-    <path
-      d="M-100 305 C300 455 700 455 1050 255 C1240 145 1380 105 1540 25"
-      stroke="#1687ff"
-      strokeWidth="1.2"
-    />
-  </svg>
-
-  {/* ================= RIGHT FLOWING LINES ================= */}
-
-  <svg
-    className="
-      pointer-events-none
-      absolute
-      right-0
-      top-0
-      h-full
-      w-[45%]
-      opacity-50
-    "
-    viewBox="0 0 650 700"
-    fill="none"
-    preserveAspectRatio="none"
-  >
-    <path
-      d="M700 -100 C520 80 530 230 400 340 C300 425 170 500 0 570"
-      stroke="#1687ff"
-      strokeWidth="1"
-    />
-    <path
-      d="M720 -80 C540 100 550 250 420 360 C320 445 190 520 20 590"
-      stroke="#1687ff"
-      strokeWidth="1"
-    />
-    <path
-      d="M740 -60 C560 120 570 270 440 380 C340 465 210 540 40 610"
-      stroke="#1687ff"
-      strokeWidth="1"
-    />
-    <path
-      d="M760 -40 C580 140 590 290 460 400 C360 485 230 560 60 630"
-      stroke="#1687ff"
-      strokeWidth="1"
-    />
-    <path
-      d="M780 -20 C600 160 610 310 480 420 C380 505 250 580 80 650"
-      stroke="#1687ff"
-      strokeWidth="1"
-    />
-    <path
-      d="M800 0 C620 180 630 330 500 440 C400 525 270 600 100 670"
-      stroke="#1687ff"
-      strokeWidth="1"
-    />
-  </svg>
-
-  {/* ================= CONTENT ================= */}
-
+  {/* CONTENT */}
   <div
     className="
       relative
@@ -219,7 +56,7 @@ export default async function GaleriPage() {
   >
     <div className="max-w-4xl">
 
-      {/* Label */}
+      {/* LABEL */}
       <div className="flex items-center gap-4">
         <span className="h-[3px] w-16 bg-yellow-400" />
 
@@ -237,7 +74,7 @@ export default async function GaleriPage() {
         </p>
       </div>
 
-      {/* Heading */}
+      {/* HEADING */}
       <h1
         className="
           mt-7
@@ -252,19 +89,19 @@ export default async function GaleriPage() {
         "
       >
         Mengenal Lebih Dekat
-        <span className="block text-white-400">
+        <span className="block text-white">
           PT Tiga Warna Primer
         </span>
       </h1>
 
-      {/* Description */}
+      {/* DESCRIPTION */}
       <p
         className="
           mt-7
           max-w-3xl
           text-base
           leading-8
-          text-blue-100
+          text-white
           md:text-lg
           lg:text-xl
         "
@@ -275,7 +112,6 @@ export default async function GaleriPage() {
 
     </div>
   </div>
-
 </section>
 
 
@@ -330,59 +166,51 @@ export default async function GaleriPage() {
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 
               {gallery.map((item) => (
+  <Link
+    key={item.id}
+    href={`/galeri/${item.id}`}
+    className="group block overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_8px_25px_rgba(15,23,42,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(15,23,42,0.12)]"
+  >
+    {/* IMAGE */}
+    <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
+      <img
+        src={item.gambar_url}
+        alt={item.judul}
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
 
-                <article
-                  key={item.id}
-                  className="
-                    group
-                    overflow-hidden
-                    rounded-2xl
-                    border
-                    border-gray-100
-                    bg-white
-                    shadow-[0_8px_25px_rgba(15,23,42,0.07)]
-                    transition-all
-                    duration-300
-                    hover:-translate-y-1
-                    hover:shadow-[0_14px_30px_rgba(15,23,42,0.10)]
-                  "
-                >
+      {/* OVERLAY */}
+      <div className="absolute inset-0 flex items-end bg-gradient-to-t from-blue-950/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <div className="p-5 text-white">
+          <span className="text-sm font-semibold">
+            Lihat Dokumentasi →
+          </span>
+        </div>
+      </div>
+    </div>
 
-                  {/* IMAGE */}
-                  <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
+    {/* CONTENT */}
+    <div className="p-6">
+      <h3 className="text-lg font-bold leading-snug text-blue-950 transition-colors group-hover:text-blue-700">
+        {item.judul}
+      </h3>
 
-                    <img
-                      src={item.gambar_url}
-                      alt={item.judul}
-                      className="
-                        h-full
-                        w-full
-                        object-cover
-                        transition-transform
-                        duration-500
-                        group-hover:scale-105
-                      "
-                    />
+      <p className="mt-3 line-clamp-2 text-sm leading-6 text-gray-500">
+        {item.deskripsi}
+      </p>
 
-                  </div>
+      <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-4">
+        <span className="text-sm font-semibold text-blue-700">
+          Lihat Selengkapnya
+        </span>
 
-
-                  {/* CONTENT */}
-                  <div className="p-6">
-
-                    <h3 className="text-lg font-bold leading-snug text-blue-950">
-                      {item.judul}
-                    </h3>
-
-                    <p className="mt-3 line-clamp-2 text-sm leading-6 text-gray-500">
-                      {item.deskripsi}
-                    </p>
-
-                  </div>
-
-                </article>
-
-              ))}
+        <span className="text-lg text-blue-700 transition-transform group-hover:translate-x-1">
+          →
+        </span>
+      </div>
+    </div>
+  </Link>
+))}
 
             </div>
 
