@@ -1,0 +1,60 @@
+name: Deploy ke Rumahweb
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Branch yang dibangun"
+        required: true
+        default: "feature/static-export"
+
+# Hanya satu deploy berjalan pada satu waktu
+concurrency:
+  group: deploy-rumahweb
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Ambil kode
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || 'feature/static-export' }}
+
+      - name: Siapkan Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependensi
+        run: npm ci
+
+      - name: Build (mengambil data terbaru dari Supabase)
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+
+      - name: Periksa hasil build sebelum diunggah
+        run: |
+          test -f out/index.html
+          test -f out/404.html
+          test -f out/.htaccess
+          count=$(find out -name '*.html' | wc -l)
+          echo "Jumlah halaman HTML: $count"
+          test "$count" -ge 20
+
+      - name: Unggah ke Rumahweb (FTP)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./out/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
