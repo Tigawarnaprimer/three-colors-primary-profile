@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 type Stats = {
   total_page_views: number;
@@ -124,16 +125,13 @@ export default function VisitorStatsPublic() {
 
     async function loadStats() {
       try {
-        const response = await fetch("/api/visitor/summary", {
-          cache: "no-store",
-          signal: controller.signal,
-        });
+        const { data: result, error } = await supabase.rpc(
+          "get_public_visitor_summary"
+        );
 
-        if (!response.ok) {
+        if (error || !result) {
           throw new Error("Gagal mengambil statistik");
         }
-
-        const result = await response.json();
 
         if (!controller.signal.aborted) {
           setStats({

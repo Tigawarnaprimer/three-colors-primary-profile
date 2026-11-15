@@ -57,27 +57,14 @@ export default function VisitorStats() {
       setErrorMessage("");
 
       try {
-        const {
-          data: { session },
-          error: sessionError,
-        } = await supabase.auth.getSession();
+        // Sesi admin otomatis dikirim oleh Supabase client.
+        // Fungsi database akan menolak pemanggil yang bukan admin.
+        const { data: result, error } = await supabase.rpc(
+          "admin_get_website_stats"
+        );
 
-        if (sessionError || !session?.access_token) {
-          throw new Error("Sesi admin tidak ditemukan. Silakan login kembali.");
-        }
-
-        const response = await fetch("/api/visitor/stats", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${session.access_token}`,
-          },
-          cache: "no-store",
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.error || "Gagal memuat statistik.");
+        if (error || !result) {
+          throw new Error(error?.message || "Gagal memuat statistik.");
         }
 
         if (!cancelled) {

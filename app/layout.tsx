@@ -6,7 +6,11 @@ import VisitorTracker from "@/components/VisitorTracker";
 import ThemeProvider from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "PT Tiga Warna Primer",
+  metadataBase: new URL("https://tigawarnaprimer.com"),
+  title: {
+    default: "PT Tiga Warna Primer",
+    template: "%s | PT Tiga Warna Primer",
+  },
   description: "Textile Dye & Chemical Specialist",
   icons: { icon: "/images/logo2.png" },
 };

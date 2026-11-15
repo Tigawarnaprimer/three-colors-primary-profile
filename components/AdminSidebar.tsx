@@ -200,7 +200,8 @@ function SidebarContent({
 }: {
   onClose?: () => void;
 }) {
-  const pathname = usePathname();
+  // Dengan trailingSlash: true, pathname berakhiran "/".
+  const pathname = (usePathname() ?? "").replace(/\/+$/, "") || "/";
   const router = useRouter();
 
   const [showLogoutModal, setShowLogoutModal] = useState(false);

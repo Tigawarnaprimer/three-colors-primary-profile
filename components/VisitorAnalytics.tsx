@@ -45,29 +45,12 @@ export default function VisitorAnalytics() {
     setError("");
 
     try {
-      const { data: sessionData, error: sessionError } =
-        await supabase.auth.getSession();
+      const { data: result, error: rpcError } = await supabase
+        .rpc("admin_get_website_analytics", { p_days: days })
+        .abortSignal(signal);
 
-      if (sessionError || !sessionData.session?.access_token) {
-        throw new Error("Sesi administrator tidak ditemukan. Silakan login kembali.");
-      }
-
-      const response = await fetch(
-        `/api/visitor/analytics?days=${days}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${sessionData.session.access_token}`,
-          },
-          cache: "no-store",
-          signal,
-        }
-      );
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "Gagal mengambil statistik.");
+      if (rpcError || !result) {
+        throw new Error(rpcError?.message || "Gagal mengambil statistik.");
       }
 
       setData(result as AnalyticsData);

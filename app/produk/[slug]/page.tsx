@@ -1,5 +1,6 @@
 
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import PdfViewer from "@/components/PdfViewer";
@@ -32,6 +33,57 @@ type ProductDetailPageProps = {
     slug: string;
   }>;
 };
+
+// Hanya slug yang dibuat saat build yang tersedia (static export).
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const { data, error } = await supabase
+    .from("produk")
+    .select("slug")
+    .eq("status", "Aktif");
+
+  // Gagal ambil data = build harus gagal, jangan terbit tanpa halaman produk.
+  if (error) {
+    throw new Error(`Gagal mengambil slug produk: ${error.message}`);
+  }
+
+  return (data ?? [])
+    .filter((item) => item.slug)
+    .map((item) => ({ slug: item.slug as string }));
+}
+
+export async function generateMetadata({
+  params,
+}: ProductDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  const { data: product } = await supabase
+    .from("produk")
+    .select("nama, deskripsi, gambar_url")
+    .eq("slug", slug)
+    .eq("status", "Aktif")
+    .maybeSingle();
+
+  if (!product) return {};
+
+  const description =
+    (product.deskripsi ?? "").replace(/\s+/g, " ").trim().slice(0, 160) ||
+    `${product.nama} dari PT Tiga Warna Primer.`;
+
+  return {
+    title: product.nama,
+    description,
+    alternates: { canonical: `/produk/${slug}/` },
+    openGraph: {
+      title: product.nama,
+      description,
+      type: "website",
+      url: `/produk/${slug}/`,
+      images: product.gambar_url ? [{ url: product.gambar_url }] : undefined,
+    },
+  };
+}
 
 export default async function ProductDetail({
   params,

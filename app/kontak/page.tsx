@@ -1,5 +1,4 @@
 import { supabase } from "@/lib/supabase";
-export const dynamic = "force-dynamic";
 async function getContact() {
   const { data, error } = await supabase
     .from("kontak")

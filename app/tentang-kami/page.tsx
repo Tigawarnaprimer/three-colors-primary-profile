@@ -1,5 +1,4 @@
 import { supabase } from "@/lib/supabase";
-export const dynamic = "force-dynamic";
 type TentangKami = {
   id: number;
   profil_judul: string | null;

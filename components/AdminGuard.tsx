@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 export default function AdminGuard({
   children,
@@ -9,11 +10,13 @@ export default function AdminGuard({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
 
   const [checking, setChecking] = useState(true);
 
-  const isLoginPage = pathname === "/admin/login";
+  // Dengan trailingSlash: true, pathname berakhiran "/".
+  const normalizedPath = pathname.replace(/\/+$/, "") || "/";
+  const isLoginPage = normalizedPath === "/admin/login";
 
   useEffect(() => {
     // Halaman login tidak perlu dicek
@@ -22,17 +25,40 @@ export default function AdminGuard({
       return;
     }
 
-    const isLoggedIn = sessionStorage.getItem("adminLoggedIn");
+    let cancelled = false;
 
-    if (!isLoggedIn) {
-      router.replace(
-        `/admin/login?redirect=${encodeURIComponent(pathname)}`
-      );
-      return;
+    async function checkSession() {
+      // Cek sesi Supabase yang sebenarnya, bukan penanda di sessionStorage.
+      const { data } = await supabase.auth.getSession();
+
+      if (cancelled) return;
+
+      if (!data.session) {
+        router.replace(
+          `/admin/login/?redirect=${encodeURIComponent(normalizedPath)}`
+        );
+        return;
+      }
+
+      setChecking(false);
     }
 
-    setChecking(false);
-  }, [router, pathname, isLoginPage]);
+    checkSession();
+
+    // Jika sesi berakhir atau logout di tab lain, kembali ke login.
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        if (!session && !cancelled) {
+          router.replace("/admin/login/");
+        }
+      }
+    );
+
+    return () => {
+      cancelled = true;
+      listener.subscription.unsubscribe();
+    };
+  }, [router, normalizedPath, isLoginPage]);
 
   if (checking) {
     return (

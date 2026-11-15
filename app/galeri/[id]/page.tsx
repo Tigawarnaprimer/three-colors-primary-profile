@@ -1,9 +1,8 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 type GalleryPhoto = {
   id: number;
@@ -15,6 +14,58 @@ type DisplayPhoto = {
   id: string;
   gambar_url: string;
 };
+
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const { data, error } = await supabase
+    .from("galeri")
+    .select("id")
+    .eq("status", "Aktif");
+
+  if (error) {
+    throw new Error(`Gagal mengambil daftar galeri: ${error.message}`);
+  }
+
+  return (data ?? []).map((item) => ({ id: String(item.id) }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const galleryId = Number(id);
+
+  if (!Number.isInteger(galleryId) || galleryId <= 0) return {};
+
+  const { data: gallery } = await supabase
+    .from("galeri")
+    .select("judul, deskripsi, gambar_url")
+    .eq("id", galleryId)
+    .eq("status", "Aktif")
+    .maybeSingle();
+
+  if (!gallery) return {};
+
+  const description =
+    (gallery.deskripsi ?? "").replace(/\s+/g, " ").trim().slice(0, 160) ||
+    `Dokumentasi ${gallery.judul} PT Tiga Warna Primer.`;
+
+  return {
+    title: gallery.judul,
+    description,
+    alternates: { canonical: `/galeri/${galleryId}/` },
+    openGraph: {
+      title: gallery.judul,
+      description,
+      type: "website",
+      url: `/galeri/${galleryId}/`,
+      images: gallery.gambar_url ? [{ url: gallery.gambar_url }] : undefined,
+    },
+  };
+}
 
 export default async function GaleriDetailPage({
   params,
