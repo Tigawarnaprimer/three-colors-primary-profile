@@ -1,0 +1,31 @@
+# ===== Paksa HTTPS =====
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ===== Halaman 404 buatan Next.js =====
+ErrorDocument 404 /404.html
+
+# ===== Kompresi =====
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json image/svg+xml
+</IfModule>
+
+# ===== Cache =====
+<IfModule mod_headers.c>
+  # HTML: selalu cek versi terbaru, supaya hasil deploy langsung terlihat
+  <FilesMatch "\.(html|txt|xml)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  # File berhash di /_next/static: aman disimpan lama
+  <FilesMatch "\.(js|css|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # Gambar
+  <FilesMatch "\.(jpg|jpeg|png|webp|svg|ico|gif)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>
+
+Options -Indexes
