@@ -1092,42 +1092,6 @@ useEffect(() => {
       
 
 
-{/* STATISTIK KUNJUNGAN WEBSITE */}
-<section className="relative isolate overflow-hidden bg-gradient-to-b from-white via-blue-50 to-sky-100 pt-10 pb-12 sm:pt-12 sm:pb-14 lg:pt-14 lg:pb-16">
-  {/* Ornamen latar */}
-  <div
-    aria-hidden="true"
-    className="pointer-events-none absolute -left-32 top-20 -z-10 h-80 w-80 rounded-full bg-blue-200/30 blur-3xl"
-  />
-
-  <div
-    aria-hidden="true"
-    className="pointer-events-none absolute -right-32 top-10 -z-10 h-96 w-96 rounded-full bg-amber-100/50 blur-3xl"
-  />
-
-  <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-    <div className="mx-auto mb-10 max-w-3xl text-center sm:mb-12">
-      <div className="mx-auto mb-5 h-1 w-16 rounded-full bg-amber-400" />
-
-      <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-blue-700 sm:text-sm">
-        Statistik Website
-      </p>
-
-      <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-blue-950 dark:text-slate-100 sm:text-4xl lg:text-5xl">
-        Aktivitas Kunjungan Website
-      </h2>
-
-      <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">
-        Ringkasan aktivitas pengunjung website PT Tiga Warna Primer
-        untuk memberikan gambaran interaksi dengan informasi dan produk kami.
-      </p>
-    </div>
-
-    <VisitorStatsPublic />
-  </div>
-</section>
-
-
 {/* ================= CTA HUBUNGI KAMI ================= */}
 <section className="bg-gradient-to-b from-white via-blue-50 to-sky-100 px-5 py-10 sm:px-8 sm:py-12">
   <div className="mx-auto max-w-7xl">
