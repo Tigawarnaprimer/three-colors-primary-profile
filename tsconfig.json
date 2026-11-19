@@ -1,3 +1,4 @@
+
 {
   "compilerOptions": {
     "target": "ES2017",
@@ -35,9 +36,11 @@
     "**/*.tsx",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "src-old",
-    "vite.config.old.ts"
-  ]
+"exclude": [
+  "node_modules",
+  "src-old",
+  "vite.config.old.ts",
+  "supabase/functions"
+]
+
 }
