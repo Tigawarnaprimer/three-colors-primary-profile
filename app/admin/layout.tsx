@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AdminGuard from "@/components/AdminGuard";
+import PublishButton from "@/components/PublishButton";
 
 // Halaman admin tidak boleh muncul di Google
 export const metadata: Metadata = {
@@ -12,5 +13,10 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <AdminGuard>{children}</AdminGuard>;
+  return (
+    <AdminGuard>
+      {children}
+      <PublishButton />
+    </AdminGuard>
+  );
 }
